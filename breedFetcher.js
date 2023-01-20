@@ -1,22 +1,14 @@
 const request = require("request")
-const process = require("process")
-const ps = process.argv.splice(2)
-const par = ps[0]
 
+const fetchBreedDescription = function(breedName, callback) {
 
-request(`https://api.thecatapi.com/v1/breeds/search?q=${par}`, (error, response, body) => {
-    if (error) {
-        console.error(error);
-    }
+    request(`https://api.thecatapi.com/v1/breeds/search?q=${breedName}`, (error, response, body) => {
+        const data = JSON.parse(body);
+        const data1 = data[0].description
 
-    x(body)
+        callback(error, data1)
 
-});
-
-const x = (a) => {
-
-    const data = JSON.parse(a);
-    const data1 = data[0].description
-    console.log(data1);
-
+    });
 }
+
+module.exports = { fetchBreedDescription };
